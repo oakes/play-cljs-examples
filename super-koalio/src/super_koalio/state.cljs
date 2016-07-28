@@ -2,7 +2,11 @@
   (:require [play-cljs.core :as p]
             [super-koalio.utils :as u]))
 
-(defn initial-state [url tile-width tile-height]
+(def ^:const url "koalio.png")
+(def ^:const tile-width 18)
+(def ^:const tile-height 26)
+
+(defn initial-state []
   (let [stand-right (p/sprite url 0 0 {:frame (p/rectangle 0 0 tile-width tile-height)})
         stand-left (-> stand-right (assoc :anchor [1 0]) (assoc :scale [-1 1]))
         jump-right (p/sprite url 0 0 {:frame (p/rectangle tile-width 0 tile-width tile-height)})
@@ -42,4 +46,13 @@
              :y (+ y y-change)
              :can-jump? (if (> y-velocity 0) false can-jump?))
       state)))
+
+(defn prevent-move
+  [{:keys [x y x-change y-change] :as state} game]
+  (let [max-y (- (p/get-height game) tile-height)
+        old-y (- y y-change)
+        up? (neg? y-change)]
+    (merge state
+           (when (> y max-y)
+             {:y-velocity 0 :y-change 0 :y old-y :can-jump? (not up?)}))))
 
