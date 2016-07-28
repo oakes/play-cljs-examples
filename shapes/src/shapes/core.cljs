@@ -29,6 +29,6 @@
 
 (defonce game
   (doto (p/create-game renderer {:shape {:x 0 :y 0}})
-    (p/start ["keydown" "mousemove"])
+    (p/start ["mousemove"])
     (p/set-screens [main-screen])))
 
