@@ -36,8 +36,8 @@
     (on-event [_ state event])))
 
 (defonce renderer
-  (doto (p/create-renderer 500 500 {:background-color 0x65C25D})
-    (->> .-view (.appendChild js/document.body))))
+  (p/create-renderer 500 500 {:view (.querySelector js/document "#canvas")
+                              :background-color 0x65C25D}))
 
 (defonce game
   (doto (p/create-game renderer)
