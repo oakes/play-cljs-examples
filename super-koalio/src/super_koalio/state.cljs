@@ -44,7 +44,7 @@
              :y-change y-change
              :x (+ x x-change)
              :y (+ y y-change)
-             :can-jump? (if (> y-velocity 0) false can-jump?))
+             :can-jump? (if (neg? y-velocity) false can-jump?))
       state)))
 
 (defn prevent-move
