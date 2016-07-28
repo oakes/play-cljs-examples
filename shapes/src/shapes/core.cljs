@@ -15,7 +15,7 @@
                       [:circle {:x 20 :y 40 :radius 10}]]]]
                    0 0)}))
     (on-hide [_ state])
-    (on-render [_ state timestamp]
+    (on-render [_ state total-time delta-time]
       (:shapes state))
     (on-event [_ state event]
       (when (= (.-type event) "mousemove")
