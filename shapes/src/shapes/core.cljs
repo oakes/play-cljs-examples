@@ -2,9 +2,7 @@
   (:require [play-cljs.core :as p]
             [play-cljs.graphics :as g]))
 
-(defonce renderer
-  (doto (p/create-renderer 500 500 {:background-color 0x65C25D})
-    (->> .-view (.appendChild js/document.body))))
+(declare renderer)
 
 (def main-screen
   (reify p/Screen
@@ -24,6 +22,10 @@
         [(-> state
              (assoc-in [:shape :x] (- (.-clientX event) (-> renderer .-view .-offsetLeft)))
              (assoc-in [:shape :y] (- (.-clientY event) (-> renderer .-view .-offsetTop))))]))))
+
+(defonce renderer
+  (doto (p/create-renderer 500 500 {:background-color 0x65C25D})
+    (->> .-view (.appendChild js/document.body))))
 
 (defonce game
   (doto (p/create-game renderer {:shape {:x 0 :y 0}})
