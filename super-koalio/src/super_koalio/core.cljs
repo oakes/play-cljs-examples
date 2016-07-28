@@ -1,13 +1,14 @@
 (ns super-koalio.core
   (:require [play-cljs.core :as p]))
 
+(def ^:const url "koalio.png")
+(def ^:const tile-width 18)
+(def ^:const tile-height 26)
+
 (def main-screen
   (reify p/Screen
     (on-show [_ state]
-      (let [url "koalio.png"
-            tile-width 18
-            tile-height 26
-            stand-right (p/sprite url 0 0 {:frame (p/rectangle 0 0 tile-width tile-height)})
+      (let [stand-right (p/sprite url 0 0 {:frame (p/rectangle 0 0 tile-width tile-height)})
             stand-left (-> stand-right (assoc :anchor [1 0]) (assoc :scale [-1 1]))
             jump-right (p/sprite url 0 0 {:frame (p/rectangle tile-width 0 tile-width tile-height)})
             jump-left (-> jump-right (assoc :anchor [1 0]) (assoc :scale [-1 1]))
