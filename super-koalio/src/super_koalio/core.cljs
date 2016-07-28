@@ -39,7 +39,7 @@
     (->> .-view (.appendChild js/document.body))))
 
 (defonce game
-  (doto (p/create-game renderer {})
+  (doto (p/create-game renderer)
     (p/start ["keydown"])
     (p/set-screens [main-screen])))
 
