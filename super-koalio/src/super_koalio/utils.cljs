@@ -2,11 +2,11 @@
   (:require [play-cljs.core :as p]))
 
 (def ^:const duration 0.15)
-(def ^:const damping 0.5)
+(def ^:const damping 0.1)
 (def ^:const max-velocity 0.5)
 (def ^:const max-jump-velocity (* max-velocity 8))
 (def ^:const deceleration 0.9)
-(def ^:const gravity 0.4)
+(def ^:const gravity 0.3)
 
 (defn decelerate
   [velocity]
@@ -32,4 +32,12 @@
     (* -1 max-jump-velocity)
     :else
     y-velocity))
+
+(defn get-direction
+  [{:keys [x-velocity direction]}]
+  (cond
+    (> x-velocity 0) :right
+    (< x-velocity 0) :left
+    :else
+    direction))
 

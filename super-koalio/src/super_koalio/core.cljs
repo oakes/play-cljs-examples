@@ -10,10 +10,11 @@
       (p/reset-state (s/initial-state)))
     (on-hide [_ state])
     (on-render [_ {:keys [x y] :as state} total-time delta-time]
-      [(assoc (:stand-right state) :x x :y y)
+      [(assoc (:current state) :x x :y y)
        (-> state
            (s/move game delta-time)
            (s/prevent-move game)
+           (s/animate)
            (p/reset-state))])
     (on-event [_ state event])))
 

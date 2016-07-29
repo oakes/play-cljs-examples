@@ -7,22 +7,33 @@
 (def ^:const tile-height 26)
 
 (defn initial-state []
-  (let [stand-right (p/sprite url 0 0 {:frame (p/rectangle 0 0 tile-width tile-height)})
-        stand-left (-> stand-right (assoc :anchor [1 0]) (assoc :scale [-1 1]))
-        jump-right (p/sprite url 0 0 {:frame (p/rectangle tile-width 0 tile-width tile-height)})
-        jump-left (-> jump-right (assoc :anchor [1 0]) (assoc :scale [-1 1]))
-        walk1-right (p/sprite url 0 0 {:frame (p/rectangle (* 2 tile-width) 0 tile-width tile-height)})
-        walk1-left (-> walk1-right (assoc :anchor [1 0]) (assoc :scale [-1 1]))
-        walk2-right (p/sprite url 0 0 {:frame (p/rectangle (* 3 tile-width) 0 tile-width tile-height)})
-        walk2-left (-> walk2-right (assoc :anchor [1 0]) (assoc :scale [-1 1]))
-        walk3-right (p/sprite url 0 0 {:frame (p/rectangle (* 4 tile-width) 0 tile-width tile-height)})
-        walk3-left (-> walk3-right (assoc :anchor [1 0]) (assoc :scale [-1 1]))]
-    {:stand-right stand-right
+  (let [stand-right (p/sprite url {:frame {:x 0 :y 0 :width tile-width :height tile-height}})
+        stand-left (p/sprite url {:frame {:x 0 :y 0 :width tile-width :height tile-height}
+                                  :anchor [1 0]
+                                  :scale [-1 1]})
+        jump-right (p/sprite url {:frame {:x tile-width :y 0 :width tile-width :height tile-height}})
+        jump-left (p/sprite url {:frame {:x tile-width :y 0 :width tile-width :height tile-height}
+                                 :anchor [1 0]
+                                 :scale [-1 1]})
+        walk1-right (p/sprite url {:frame {:x (* 2 tile-width) :y 0 :width tile-width :height tile-height}})
+        walk1-left (p/sprite url {:frame {:x (* 2 tile-width) :y 0 :width tile-width :height tile-height}
+                                  :anchor [1 0]
+                                  :scale [-1 1]})
+        walk2-right (p/sprite url {:frame {:x (* 3 tile-width) :y 0 :width tile-width :height tile-height}})
+        walk2-left (p/sprite url {:frame {:x (* 3 tile-width) :y 0 :width tile-width :height tile-height}
+                                  :anchor [1 0]
+                                  :scale [-1 1]})
+        walk3-right (p/sprite url {:frame {:x (* 4 tile-width) :y 0 :width tile-width :height tile-height}})
+        walk3-left (p/sprite url {:frame {:x (* 4 tile-width) :y 0 :width tile-width :height tile-height}
+                                  :anchor [1 0]
+                                  :scale [-1 1]})]
+    {:current stand-right
+     :stand-right stand-right
      :stand-left stand-left
      :jump-right jump-right
      :jump-left jump-left
-     :walk-right [walk1-right walk2-right walk3-right]
-     :walk-left [walk1-left walk2-left walk3-left]
+     :walk-right (p/movie-clip [walk1-right walk2-right walk3-right] {:animation-speed 0.15})
+     :walk-left (p/movie-clip [walk1-left walk2-left walk3-left] {:animation-speed 0.15})
      :x-velocity 0
      :y-velocity 0
      :x 100
@@ -55,4 +66,21 @@
     (merge state
            (when (> y max-y)
              {:y-velocity 0 :y-change 0 :y old-y :can-jump? (not up?)}))))
+
+(defn animate
+  [{:keys [x-velocity y-velocity
+           stand-right stand-left
+           jump-right jump-left
+           walk-right walk-left] :as state}]
+  (let [direction (u/get-direction state)]
+    (-> state
+        (assoc :current
+          (cond
+            (not= y-velocity 0)
+            (if (= direction :right) jump-right jump-left)
+            (not= x-velocity 0)
+            (if (= direction :right) walk-right walk-left)
+            :else
+            (if (= direction :right) stand-right stand-left)))
+        (assoc :direction direction))))
 
