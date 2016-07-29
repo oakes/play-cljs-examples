@@ -12,8 +12,7 @@
                     [:polygon {:path [0 0, 0 50, 50 50, 50 0]}
                      [:fill {:color 0x9b59b6 :alpha 1}
                       [:rect {:x 10 :y 10 :width 20 :height 20}]
-                      [:circle {:x 20 :y 40 :radius 10}]]]]
-                   0 0)}))
+                      [:circle {:x 20 :y 40 :radius 10}]]]])}))
     (on-hide [_ state])
     (on-render [_ state total-time delta-time]
       (:shapes state))
