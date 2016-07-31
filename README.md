@@ -3,8 +3,8 @@ This repository provides public domain examples of games using [play-cljs](https
 
 ## Contents
 
-* **shapes** - a basic demo of drawing shapes
-* **super-koalio** - a platformer based on a [test game](https://github.com/libgdx/libgdx/blob/master/tests/gdx-tests/src/com/badlogic/gdx/tests/superkoalio/SuperKoalio.java)
+* [**shapes**](https://oakes.github.io/play-cljs-examples/demos/shapes/) - a basic demo of drawing shapes
+* [**super-koalio**](https://oakes.github.io/play-cljs-examples/demos/super-koalio/) - a platformer based on a [test game](https://github.com/libgdx/libgdx/blob/master/tests/gdx-tests/src/com/badlogic/gdx/tests/superkoalio/SuperKoalio.java)
 
 ## Licensing
 
