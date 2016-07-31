@@ -1,7 +1,9 @@
 (ns shapes.core
   (:require [play-cljs.core :as p]))
 
-(declare renderer)
+(declare game renderer)
+
+(def element (.querySelector js/document "#canvas"))
 
 (def main-screen
   (reify p/Screen
@@ -18,13 +20,19 @@
       (:shapes state))
     (on-event [_ state event]
       (when (= (.-type event) "mousemove")
-        (-> state
-            (assoc-in [:shapes :x] (- (.-clientX event) (-> renderer .-view .-offsetLeft)))
-            (assoc-in [:shapes :y] (- (.-clientY event) (-> renderer .-view .-offsetTop)))
-            p/reset-state)))))
+        (let [x-offset (max 0 (- (.-clientWidth element) (.-clientHeight element)))
+              y-offset (max 0 (- (.-clientHeight element) (.-clientWidth element)))
+              x-adjust (/ (p/get-width game) (- (.-clientWidth element) x-offset))
+              y-adjust (/ (p/get-height game) (- (.-clientHeight element) y-offset))
+              new-x (* x-adjust (- (.-clientX event) (/ x-offset 2)))
+              new-y (* y-adjust (- (.-clientY event) (/ y-offset 2)))]
+          (-> state
+              (assoc-in [:shapes :x] new-x)
+              (assoc-in [:shapes :y] new-y)
+              p/reset-state))))))
 
 (defonce renderer
-  (p/create-renderer 500 500 {:view (.querySelector js/document "#canvas")
+  (p/create-renderer 500 500 {:view element
                               :background-color 0x65C25D}))
 
 (defonce game
