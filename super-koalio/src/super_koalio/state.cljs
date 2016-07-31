@@ -39,7 +39,10 @@
      :x 100
      :y 0
      :can-jump? false
-     :direction :right}))
+     :direction :right
+     :background (p/graphics
+                   [:fill {:color 0x8080FF :alpha 1}
+                    [:rect {:x 0 :y 0 :width u/view-size :height u/view-size}]])}))
 
 (defn move
   [{:keys [x y can-jump?] :as state} game]

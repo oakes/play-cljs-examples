@@ -1,6 +1,7 @@
 (ns super-koalio.core
   (:require [play-cljs.core :as p]
-            [super-koalio.state :as s]))
+            [super-koalio.state :as s]
+            [super-koalio.utils :as u]))
 
 (declare game)
 
@@ -10,7 +11,8 @@
       (p/reset-state (s/initial-state)))
     (on-hide [_ state])
     (on-render [_ {:keys [x y] :as state}]
-      [(assoc (:current state) :x x :y y)
+      [(:background state)
+       (assoc (:current state) :x x :y y)
        (-> state
            (s/move game)
            (s/prevent-move game)
@@ -21,8 +23,7 @@
 (def canvas (.querySelector js/document "#canvas"))
 
 (defonce renderer
-  (p/create-renderer 500 500 {:view canvas
-                              :background-color 0x8080FF}))
+  (p/create-renderer u/view-size u/view-size {:view canvas}))
 
 (defonce game (p/create-game renderer))
 

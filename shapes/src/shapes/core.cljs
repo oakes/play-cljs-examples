@@ -3,19 +3,27 @@
 
 (declare canvas renderer game)
 
+(def ^:const view-size 500)
+
 (def main-screen
   (reify p/Screen
     (on-show [_ state]
       (p/reset-state
-        {:shapes (p/graphics
+        {:background (p/graphics
+                       [:fill {:color 0x65C25D :alpha 1}
+                        [:rect {:x 0 :y 0 :width view-size :height view-size}]])
+         :shapes (p/graphics
                    [:fill {:color 0xe74c3c :alpha 1}
                     [:polygon {:path [0 0, 0 50, 50 50, 50 0]}
                      [:fill {:color 0x9b59b6 :alpha 1}
                       [:rect {:x 10 :y 10 :width 20 :height 20}]
-                      [:circle {:x 20 :y 40 :radius 10}]]]])}))
+                      [:circle {:x 20 :y 40 :radius 10}]]]])
+         :label (p/text "Hello, world!" {:fill 0xFFFFFF} {:x 100 :y 100})}))
     (on-hide [_ state])
     (on-render [_ state]
-      (:shapes state))
+      [(:background state)
+       (:label state)
+       (:shapes state)])
     (on-event [_ state event]
       (when (= (.-type event) "mousemove")
         (let [x-offset (max 0 (- (.-clientWidth canvas) (.-clientHeight canvas)))
@@ -32,8 +40,7 @@
 (def canvas (.querySelector js/document "#canvas"))
 
 (defonce renderer
-  (p/create-renderer 500 500 {:view canvas
-                              :background-color 0x65C25D}))
+  (p/create-renderer view-size view-size {:view canvas}))
 
 (defonce game (p/create-game renderer))
 

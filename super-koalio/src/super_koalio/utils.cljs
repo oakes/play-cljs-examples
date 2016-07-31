@@ -1,6 +1,7 @@
 (ns super-koalio.utils
   (:require [play-cljs.core :as p]))
 
+(def ^:const view-size 500)
 (def ^:const duration 0.15)
 (def ^:const damping 0.1)
 (def ^:const max-velocity 0.5)
