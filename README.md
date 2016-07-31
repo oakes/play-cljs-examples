@@ -1,5 +1,6 @@
 ## play-cljs-examples
-This repository provides public domain examples of games using [play-cljs](https://github.com/oakes/play-cljs).
+
+This repository provides public domain examples of games using [play-cljs](https://github.com/oakes/play-cljs). Click the links to try them.
 
 ## Contents
 
