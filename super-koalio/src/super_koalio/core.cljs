@@ -18,12 +18,16 @@
            (p/reset-state))])
     (on-event [_ state event])))
 
+(def canvas (.querySelector js/document "#canvas"))
+
 (defonce renderer
-  (p/create-renderer 500 500 {:view (.querySelector js/document "#canvas")
+  (p/create-renderer 500 500 {:view canvas
                               :background-color 0x65C25D}))
 
-(defonce game
-  (doto (p/create-game renderer)
-    (p/start ["keydown"])
-    (p/set-screens [main-screen])))
+(defonce game (p/create-game renderer))
+
+(doto game
+  (p/stop)
+  (p/start ["keydown"])
+  (p/set-screens [main-screen]))
 

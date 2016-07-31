@@ -3,7 +3,7 @@
   :resource-paths #{"resources"}
   :dependencies '[[org.clojure/test.check "0.9.0" :scope "test"]
                   [adzerk/boot-cljs "1.7.228-1" :scope "test"]
-                  [adzerk/boot-reload "0.4.8" :scope "test"]
+                  [adzerk/boot-reload "0.4.12" :scope "test"]
                   [pandeiro/boot-http "0.7.3" :scope "test"]
                   ; project deps
                   [org.clojure/clojure "1.9.0-alpha10"]
