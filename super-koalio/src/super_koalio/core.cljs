@@ -12,7 +12,7 @@
     (on-render [_ {:keys [x y] :as state}]
       [(assoc (:current state) :x x :y y)
        (-> state
-           (s/move game (p/get-delta-time game))
+           (s/move game)
            (s/prevent-move game)
            (s/animate)
            (p/reset-state))])

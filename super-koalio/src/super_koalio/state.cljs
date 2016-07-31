@@ -42,8 +42,9 @@
      :direction :right}))
 
 (defn move
-  [{:keys [x y can-jump?] :as state} game delta-time]
-  (let [x-velocity (u/get-x-velocity game state)
+  [{:keys [x y can-jump?] :as state} game]
+  (let [delta-time (p/get-delta-time game)
+        x-velocity (u/get-x-velocity game state)
         y-velocity (+ (u/get-y-velocity game state) u/gravity)
         x-change (* x-velocity delta-time)
         y-change (* y-velocity delta-time)]
