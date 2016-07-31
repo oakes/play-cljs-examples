@@ -22,7 +22,7 @@
 
 (defonce renderer
   (p/create-renderer 500 500 {:view canvas
-                              :background-color 0x65C25D}))
+                              :background-color 0x8080FF}))
 
 (defonce game (p/create-game renderer))
 
