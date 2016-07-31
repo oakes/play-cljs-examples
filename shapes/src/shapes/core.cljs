@@ -18,7 +18,7 @@
                      [:fill {:color 0x9b59b6 :alpha 1}
                       [:rect {:x 10 :y 10 :width 20 :height 20}]
                       [:circle {:x 20 :y 40 :radius 10}]]]])
-         :label (p/text "Hello, world!" {:fill 0xFFFFFF} {:x 100 :y 100})}))
+         :label (p/text "Hello, world!" {:fill 0xFFFFFF :x 100 :y 100})}))
     (on-hide [_ state])
     (on-render [_ state]
       [(:background state)
