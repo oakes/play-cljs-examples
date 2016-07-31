@@ -18,9 +18,9 @@
 (defn get-x-velocity
   [game {:keys [x-velocity]}]
   (cond
-    (p/key-pressed? game :arrow-left)
+    (contains? (p/get-pressed-keys game) 37)
     (* -1 max-velocity)
-    (p/key-pressed? game :arrow-right)
+    (contains? (p/get-pressed-keys game) 39)
     max-velocity
     :else
     x-velocity))
@@ -28,7 +28,7 @@
 (defn get-y-velocity
   [game {:keys [y-velocity can-jump?]}]
   (cond
-    (and can-jump? (p/key-pressed? game :arrow-up))
+    (and can-jump? (contains? (p/get-pressed-keys game) 38))
     (* -1 max-jump-velocity)
     :else
     y-velocity))
