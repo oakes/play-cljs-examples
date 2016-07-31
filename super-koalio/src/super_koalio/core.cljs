@@ -9,10 +9,10 @@
     (on-show [_ state]
       (p/reset-state (s/initial-state)))
     (on-hide [_ state])
-    (on-render [_ {:keys [x y] :as state} total-time delta-time]
+    (on-render [_ {:keys [x y] :as state}]
       [(assoc (:current state) :x x :y y)
        (-> state
-           (s/move game delta-time)
+           (s/move game (p/get-delta-time game))
            (s/prevent-move game)
            (s/animate)
            (p/reset-state))])

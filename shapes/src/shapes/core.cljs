@@ -14,7 +14,7 @@
                       [:rect {:x 10 :y 10 :width 20 :height 20}]
                       [:circle {:x 20 :y 40 :radius 10}]]]])}))
     (on-hide [_ state])
-    (on-render [_ state total-time delta-time]
+    (on-render [_ state]
       (:shapes state))
     (on-event [_ state event]
       (when (= (.-type event) "mousemove")
