@@ -30,5 +30,5 @@
 (doto game
   (p/stop)
   (p/start ["keydown"])
-  (p/set-screens [main-screen]))
+  (p/set-screen main-screen))
 
