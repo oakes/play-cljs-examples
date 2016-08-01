@@ -8,7 +8,7 @@
 (def main-screen
   (reify p/Screen
     (on-show [_ state]
-      (p/reset-state (s/initial-state)))
+      (p/reset-state (merge state (s/initial-state))))
     (on-hide [_ state])
     (on-render [_ {:keys [x y] :as state}]
       [(:background state)
