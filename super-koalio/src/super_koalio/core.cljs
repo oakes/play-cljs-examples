@@ -22,8 +22,7 @@
 
 (def canvas (.querySelector js/document "#canvas"))
 
-(defonce renderer
-  (p/create-renderer u/view-size u/view-size {:view canvas}))
+(defonce renderer (p/create-renderer u/view-size u/view-size {:view canvas}))
 
 (defonce game (p/create-game renderer))
 
