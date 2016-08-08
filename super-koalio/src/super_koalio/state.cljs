@@ -6,43 +6,24 @@
 (def ^:const tile-width 18)
 (def ^:const tile-height 26)
 
-(defn initial-state []
-  (let [stand-right (p/sprite url {:frame {:x 0 :y 0 :width tile-width :height tile-height}})
-        stand-left (p/sprite url {:frame {:x 0 :y 0 :width tile-width :height tile-height}
-                                  :anchor [1 0]
-                                  :scale [-1 1]})
-        jump-right (p/sprite url {:frame {:x tile-width :y 0 :width tile-width :height tile-height}})
-        jump-left (p/sprite url {:frame {:x tile-width :y 0 :width tile-width :height tile-height}
-                                 :anchor [1 0]
-                                 :scale [-1 1]})
-        walk1-right (p/sprite url {:frame {:x (* 2 tile-width) :y 0 :width tile-width :height tile-height}})
-        walk1-left (p/sprite url {:frame {:x (* 2 tile-width) :y 0 :width tile-width :height tile-height}
-                                  :anchor [1 0]
-                                  :scale [-1 1]})
-        walk2-right (p/sprite url {:frame {:x (* 3 tile-width) :y 0 :width tile-width :height tile-height}})
-        walk2-left (p/sprite url {:frame {:x (* 3 tile-width) :y 0 :width tile-width :height tile-height}
-                                  :anchor [1 0]
-                                  :scale [-1 1]})
-        walk3-right (p/sprite url {:frame {:x (* 4 tile-width) :y 0 :width tile-width :height tile-height}})
-        walk3-left (p/sprite url {:frame {:x (* 4 tile-width) :y 0 :width tile-width :height tile-height}
-                                  :anchor [1 0]
-                                  :scale [-1 1]})]
-    {:current stand-right
+(defn initial-state [game]
+  (let [image (p/load-image game "koalio.png")
+        stand-right [:img {:object image :swidth tile-width :sheight tile-height}]
+        stand-left [:img {:object image :swidth tile-width :sheight tile-height :scale-x -1 :width (- tile-width)}]]
+    {:koalio (p/load-image game "koalio.png")
+     :current stand-right
      :stand-right stand-right
      :stand-left stand-left
-     :jump-right jump-right
-     :jump-left jump-left
-     :walk-right (p/movie-clip [walk1-right walk2-right walk3-right] {:animation-speed 0.15})
-     :walk-left (p/movie-clip [walk1-left walk2-left walk3-left] {:animation-speed 0.15})
+     ;:jump-right TODO
+     ;:jump-left TODO
+     ;:walk-right TODO
+     ;:walk-left TODO
      :x-velocity 0
      :y-velocity 0
      :x 100
      :y 0
      :can-jump? false
-     :direction :right
-     :background (p/graphics
-                   [:fill {:color 0x8080FF :alpha 1}
-                    [:rect {:x 0 :y 0 :width u/view-size :height u/view-size}]])}))
+     :direction :right}))
 
 (defn move
   [{:keys [x y can-jump?] :as state} game]
@@ -80,10 +61,10 @@
     (-> state
         (assoc :current
           (cond
-            (not= y-velocity 0)
-            (if (= direction :right) jump-right jump-left)
-            (not= x-velocity 0)
-            (if (= direction :right) walk-right walk-left)
+            ;(not= y-velocity 0)
+            ;(if (= direction :right) jump-right jump-left)
+            ;(not= x-velocity 0)
+            ;(if (= direction :right) walk-right walk-left)
             :else
             (if (= direction :right) stand-right stand-left)))
         (assoc :direction direction))))

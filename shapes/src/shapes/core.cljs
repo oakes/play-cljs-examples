@@ -1,57 +1,44 @@
 (ns shapes.core
   (:require [play-cljs.core :as p]))
 
-(declare canvas renderer game)
-
-(def ^:const view-size 500)
+(declare game)
 
 (def main-screen
   (reify p/Screen
     (on-show [_ state]
-      (p/reset-state
+      (p/set-state game
         (assoc state
-          :background (p/graphics
-                        [:fill {:color 0x65C25D :alpha 1}
-                         [:rect {:x 0 :y 0 :width view-size :height view-size}]])
-          :label (p/text "Hello, world!" {:fill 0xFFFFFF :x 100 :y 100}))))
+          :text ["Hello, world!" {:x 0 :y 50 :size 16 :font "Georgia" :style :italic}
+                 ["Hi there" {:y 50 :size 32 :font "Helvetica" :style :normal}]])))
     (on-hide [_ state])
     (on-render [_ state]
-      [(:background state)
-       (:label state)])
+      (p/render game (:text state)))
     (on-event [_ state event])))
 
 (def overlay-screen
   (reify p/Screen
-    (on-show [_ state]
-      (p/reset-state
-        (assoc state
-          :shapes (p/graphics
-                    [:fill {:color 0xe74c3c :alpha 1}
-                     [:polygon {:path [0 0, 0 50, 50 50, 50 0]}
-                      [:fill {:color 0x9b59b6 :alpha 1}
-                       [:rect {:x 10 :y 10 :width 20 :height 20}]
-                       [:circle {:x 20 :y 40 :radius 10}]]]]))))
+    (on-show [_ state])
     (on-hide [_ state])
     (on-render [_ state]
-      (:shapes state))
+      (p/render game [:ellipse {:x (:shapes-x state) :y (:shapes-y state) :width 60 :height 60}
+                      [:arc {:width 50 :height 50 :start 0 :stop 3.14}]
+                      ;[:quad {:x1 -10 :y1 -15 :x2 10 :y2 -15 :x3 10 :y3 15 :x4 -10 :y4 15}]
+                      [:rect {:x -10 :y -15 :width 20 :height 30}]
+                      [:line {:x1 -10 :y1 -5 :x2 10 :y2 -5}]
+                      [:triangle {:x1 -10 :y1 -15 :x2 10 :y2 -15 :x3 0 :y3 15}]]))
     (on-event [_ state event]
       (when (= (.-type event) "mousemove")
-        (let [x-offset (max 0 (- (.-clientWidth canvas) (.-clientHeight canvas)))
+        (let [canvas (p/get-canvas game)
+              x-offset (max 0 (- (.-clientWidth canvas) (.-clientHeight canvas)))
               y-offset (max 0 (- (.-clientHeight canvas) (.-clientWidth canvas)))
               x-adjust (/ (p/get-width game) (- (.-clientWidth canvas) x-offset))
               y-adjust (/ (p/get-height game) (- (.-clientHeight canvas) y-offset))
               new-x (* x-adjust (- (.-clientX event) (/ x-offset 2)))
               new-y (* y-adjust (- (.-clientY event) (/ y-offset 2)))]
-          (-> state
-              (assoc-in [:shapes :x] new-x)
-              (assoc-in [:shapes :y] new-y)
-              p/reset-state))))))
+          (p/set-state game
+            (assoc state :shapes-x new-x :shapes-y new-y)))))))
 
-(def canvas (.querySelector js/document "#canvas"))
-
-(defonce renderer (p/create-renderer view-size view-size {:view canvas}))
-
-(defonce game (p/create-game renderer))
+(defonce game (p/create-game 500 500))
 
 (doto game
   (p/stop)
