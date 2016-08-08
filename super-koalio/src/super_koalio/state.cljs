@@ -9,12 +9,14 @@
 (defn initial-state [game]
   (let [image (p/load-image game "koalio.png")
         stand-right [:img {:object image :swidth tile-width :sheight tile-height}]
-        stand-left [:img {:object image :swidth tile-width :sheight tile-height :scale-x -1 :width (- tile-width)}]]
+        stand-left [:img {:object image :swidth tile-width :sheight tile-height :scale-x -1 :width (- tile-width)}]
+        jump-right [:img {:object image :swidth tile-width :sheight tile-height :sx tile-width}]
+        jump-left [:img {:object image :swidth tile-width :sheight tile-height :sx tile-width :scale-x -1 :width (- tile-width)}]]
     {:current stand-right
      :stand-right stand-right
      :stand-left stand-left
-     ;:jump-right TODO
-     ;:jump-left TODO
+     :jump-right jump-right
+     :jump-left jump-left
      ;:walk-right TODO
      ;:walk-left TODO
      :x-velocity 0
@@ -60,8 +62,8 @@
     (-> state
         (assoc :current
           (cond
-            ;(not= y-velocity 0)
-            ;(if (= direction :right) jump-right jump-left)
+            (not= y-velocity 0)
+            (if (= direction :right) jump-right jump-left)
             ;(not= x-velocity 0)
             ;(if (= direction :right) walk-right walk-left)
             :else
