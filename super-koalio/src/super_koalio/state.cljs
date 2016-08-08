@@ -10,8 +10,7 @@
   (let [image (p/load-image game "koalio.png")
         stand-right [:img {:object image :swidth tile-width :sheight tile-height}]
         stand-left [:img {:object image :swidth tile-width :sheight tile-height :scale-x -1 :width (- tile-width)}]]
-    {:koalio (p/load-image game "koalio.png")
-     :current stand-right
+    {:current stand-right
      :stand-right stand-right
      :stand-left stand-left
      ;:jump-right TODO
