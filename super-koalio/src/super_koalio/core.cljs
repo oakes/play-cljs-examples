@@ -15,10 +15,13 @@
     (on-render [_]
       (let [{:keys [x y direction current]} @state
             x (if (= direction :left) (- x) x)]
-        (p/render game [:fill {:color "lightblue"}
-                        [:rect {:width u/view-size :height u/view-size}
-                         [:div {:x x :y y :width s/tile-width :height s/tile-height}
-                          current]]]))
+        (p/render game [; draw a blue rectangle with no stroke
+                        [:stroke {}
+                         [:fill {:color "lightblue"}
+                          [:rect {:width u/view-size :height u/view-size}]]]
+                        ; draw the koala bear
+                        [:div {:x x :y y :width s/tile-width :height s/tile-height}
+                         current]]))
       (reset! state
         (-> @state
             (s/move game)
