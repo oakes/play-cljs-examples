@@ -1,8 +1,7 @@
 (ns shapes.core
   (:require [play-cljs.core :as p]))
 
-(declare game)
-
+(defonce game (p/create-game 500 500))
 (defonce state (atom {:shapes-x 0 :shapes-y 0}))
 
 (def main-screen
@@ -71,8 +70,6 @@
               new-x (* x-adjust (- (.-clientX event) (/ x-offset 2)))
               new-y (* y-adjust (- (.-clientY event) (/ y-offset 2)))]
           (swap! state assoc :shapes-x new-x :shapes-y new-y))))))
-
-(defonce game (p/create-game 500 500))
 
 (doto game
   (p/stop)

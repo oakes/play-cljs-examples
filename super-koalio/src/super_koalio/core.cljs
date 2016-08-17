@@ -3,8 +3,7 @@
             [super-koalio.state :as s]
             [super-koalio.utils :as u]))
 
-(declare game)
-
+(defonce game (p/create-game u/view-size u/view-size))
 (defonce state (atom {}))
 
 (def main-screen
@@ -28,8 +27,6 @@
             (s/prevent-move game)
             (s/animate))))
     (on-event [_ event])))
-
-(defonce game (p/create-game u/view-size u/view-size))
 
 (doto game
   (p/stop)
