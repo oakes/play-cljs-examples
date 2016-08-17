@@ -7,26 +7,47 @@
 
 (def main-screen
   (reify p/Screen
-    (on-show [_])
+    (on-show [_]
+      ; generate images so we don't need to render them every single frame
+      (swap! state assoc
+        :rgb-image
+        (p/generate-image game 100 100
+          [:stroke {}
+           [:rgb {:max-r 100 :max-g 100 :max-b 100}
+            (for [i (range 100)
+                  j (range 100)]
+              [:stroke {:colors [i j 0]}
+               [:point {:x i :y j}]])]])
+        :hsb-image
+        (p/generate-image game 100 100
+          [:stroke {}
+           [:hsb {:max-h 100 :max-s 100 :max-b 100}
+            (for [i (range 100)
+                  j (range 100)]
+              [:stroke {:colors [i j 100]}
+               [:point {:x i :y j}]])]])))
     (on-hide [_])
     (on-render [_]
-      (p/render game [["Hello, world!" {:x 0 :y 50 :size 16 :font "Georgia" :style :italic}
-                       ["Hi there" {:y 50 :size 32 :font "Helvetica" :style :normal}]]
-                      [:div {:x 10 :y 100}
-                       [:fill {}
-                        [:stroke {:rgb [255 102 0]}
-                         [:line {:x1 85 :y1 20 :x2 10 :y2 10}]
-                         [:line {:x1 90 :y1 90 :x2 15 :y2 80}]]
-                        [:stroke {:rgb [0 0 0]}
-                         [:bezier {:x1 85 :y1 20 :x2 10 :y2 10 :x3 90 :y3 90 :x4 15 :y4 80}]]]]
-                      [:div {:x 100 :y 100}
-                       [:fill {}
-                        [:stroke {:rgb [255 102 0]}
-                         [:curve {:x1 5 :y1 26 :x2 5 :y2 26 :x3 73 :y3 24 :x4 73 :y4 61}]]
-                        [:stroke {:grayscale 0}
-                         [:curve {:x1 5 :y1 26 :x2 73 :y2 24 :x3 73 :y3 61 :x4 15 :y4 65}]]
-                        [:stroke {:rgb [255 102 0]}
-                         [:curve {:x1 73 :y1 24 :x2 73 :y2 61 :x3 15 :y3 65 :x4 15 :y4 65}]]]]]))
+      (p/render game
+        [["Hello, world!" {:x 0 :y 50 :size 16 :font "Georgia" :style :italic}
+          ["Hi there" {:y 50 :size 32 :font "Helvetica" :style :normal}]]
+         [:div {:x 10 :y 100}
+          [:fill {}
+           [:stroke {:colors [255 102 0]}
+            [:line {:x1 85 :y1 20 :x2 10 :y2 10}]
+            [:line {:x1 90 :y1 90 :x2 15 :y2 80}]]
+           [:stroke {:colors [0 0 0]}
+            [:bezier {:x1 85 :y1 20 :x2 10 :y2 10 :x3 90 :y3 90 :x4 15 :y4 80}]]]]
+         [:div {:x 100 :y 100}
+          [:fill {}
+           [:stroke {:colors [255 102 0]}
+            [:curve {:x1 5 :y1 26 :x2 5 :y2 26 :x3 73 :y3 24 :x4 73 :y4 61}]]
+           [:stroke {:grayscale 0}
+            [:curve {:x1 5 :y1 26 :x2 73 :y2 24 :x3 73 :y3 61 :x4 15 :y4 65}]]
+           [:stroke {:colors [255 102 0]}
+            [:curve {:x1 73 :y1 24 :x2 73 :y2 61 :x3 15 :y3 65 :x4 15 :y4 65}]]]]
+         [:img {:object (:rgb-image @state) :x 200 :y 100}]
+         [:img {:object (:hsb-image @state) :x 300 :y 100}]]))
     (on-event [_ event])))
 
 (def overlay-screen
