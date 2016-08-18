@@ -7,10 +7,10 @@
 (def main-screen
   (reify p/Screen
     (on-show [_]
-      ; generate images so we don't need to render them every single frame
+      ; pre-render images so we don't need to render them every single frame
       (swap! state assoc
         :rgb-image
-        (p/generate-image game 100 100
+        (p/render-image game 100 100
           [:stroke {}
            [:rgb {:max-r 100 :max-g 100 :max-b 100}
             (for [i (range 100)
@@ -18,7 +18,7 @@
               [:stroke {:colors [i j 0]}
                [:point {:x i :y j}]])]])
         :hsb-image
-        (p/generate-image game 100 100
+        (p/render-image game 100 100
           [:stroke {}
            [:hsb {:max-h 100 :max-s 100 :max-b 100}
             (for [i (range 100)
