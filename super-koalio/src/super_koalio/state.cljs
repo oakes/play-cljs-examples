@@ -2,16 +2,12 @@
   (:require [play-cljs.core :as p]
             [super-koalio.utils :as u]))
 
-(def ^:const url "koalio.png")
-(def ^:const tile-width 18)
-(def ^:const tile-height 26)
-
 (defn initial-state [game]
-  (let [image (p/load-image game "koalio.png")
-        stand-right [:img {:object image :swidth tile-width :sheight tile-height}]
-        stand-left [:img {:object image :swidth tile-width :sheight tile-height :scale-x -1 :width (- tile-width)}]
-        jump-right [:img {:object image :swidth tile-width :sheight tile-height :sx tile-width}]
-        jump-left [:img {:object image :swidth tile-width :sheight tile-height :sx tile-width :scale-x -1 :width (- tile-width)}]]
+  (let [image (p/load-image game u/image-url)
+        stand-right [:img {:object image :swidth u/tile-width :sheight u/tile-height}]
+        stand-left [:img {:object image :swidth u/tile-width :sheight u/tile-height :scale-x -1 :width (- u/tile-width)}]
+        jump-right [:img {:object image :swidth u/tile-width :sheight u/tile-height :sx u/tile-width}]
+        jump-left [:img {:object image :swidth u/tile-width :sheight u/tile-height :sx u/tile-width :scale-x -1 :width (- u/tile-width)}]]
     {:current stand-right
      :stand-right stand-right
      :stand-left stand-left
@@ -21,10 +17,12 @@
      ;:walk-left TODO
      :x-velocity 0
      :y-velocity 0
-     :x 100
-     :y 0
+     :x -100
+     :y 200
+     :koala-x (- (/ u/view-size 2) (/ u/tile-width 2))
      :can-jump? false
-     :direction :right}))
+     :direction :right
+     :map (p/load-tiled-map game u/map-name)}))
 
 (defn move
   [{:keys [x y can-jump?] :as state} game]
@@ -45,13 +43,17 @@
       state)))
 
 (defn prevent-move
-  [{:keys [x y x-change y-change] :as state} game]
-  (let [max-y (- (p/get-height game) tile-height)
+  [{:keys [x y koala-x koala-y x-change y-change] :as state} game]
+  (let [old-x (- x x-change)
         old-y (- y y-change)
         up? (neg? y-change)]
     (merge state
-           (when (> y max-y)
-             {:y-velocity 0 :y-change 0 :y old-y :can-jump? (not up?)}))))
+      (when (u/touching-tile? (:map state) 1 (+ x koala-x) old-y)
+        {:x-velocity 0 :x-change 0 :x old-x})
+      (when (u/touching-tile? (:map state) 1 (+ old-x koala-x) y)
+        {:y-velocity 0 :y-change 0 :y old-y :can-jump? (not up?)})
+      (when (> y (- (p/get-height game) u/tile-height))
+        {:y-velocity 0 :y-change 0 :y old-y :can-jump? (not up?)}))))
 
 (defn animate
   [{:keys [x-velocity y-velocity
