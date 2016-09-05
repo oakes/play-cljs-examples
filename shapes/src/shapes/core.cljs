@@ -28,8 +28,8 @@
     (on-hide [_])
     (on-render [_]
       (p/render game
-        [["Hello, world!" {:x 0 :y 50 :size 16 :font "Georgia" :style :italic}
-          ["Hi there" {:y 50 :size 32 :font "Helvetica" :style :normal}]]
+        [[:text {:value "Hello, world!" :x 0 :y 50 :size 16 :font "Georgia" :style :italic}
+          [:text {:value "Hi there" :y 50 :size 32 :font "Helvetica" :style :normal}]]
          [:div {:x 10 :y 100}
           [:fill {}
            [:stroke {:colors [255 102 0]}
@@ -45,8 +45,8 @@
             [:curve {:x1 5 :y1 26 :x2 73 :y2 24 :x3 73 :y3 61 :x4 15 :y4 65}]]
            [:stroke {:colors [255 102 0]}
             [:curve {:x1 73 :y1 24 :x2 73 :y2 61 :x3 15 :y3 65 :x4 15 :y4 65}]]]]
-         [:img {:object (:rgb-image @state) :x 200 :y 100}]
-         [:img {:object (:hsb-image @state) :x 300 :y 100}]]))
+         [:image {:value (:rgb-image @state) :x 200 :y 100}]
+         [:image {:value (:hsb-image @state) :x 300 :y 100}]]))
     (on-event [_ event])))
 
 (def overlay-screen

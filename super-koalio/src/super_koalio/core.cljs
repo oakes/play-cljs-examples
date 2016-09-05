@@ -17,7 +17,7 @@
         (p/render game [[:stroke {}
                          [:fill {:color "lightblue"}
                           [:rect {:width u/view-size :height u/view-size}]]]
-                        [:tiled-map {:object (:map @state) :x x}]
+                        [:tiled-map {:value (:map @state) :x x}]
                         [:div {:x koala-x :y y :width u/tile-width :height u/tile-height}
                          current]]))
       (reset! state

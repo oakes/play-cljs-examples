@@ -4,10 +4,10 @@
 
 (defn initial-state [game]
   (let [image (p/load-image game u/image-url)
-        stand-right [:img {:object image :swidth u/tile-width :sheight u/tile-height}]
-        stand-left [:img {:object image :swidth u/tile-width :sheight u/tile-height :scale-x -1 :width (- u/tile-width)}]
-        jump-right [:img {:object image :swidth u/tile-width :sheight u/tile-height :sx u/tile-width}]
-        jump-left [:img {:object image :swidth u/tile-width :sheight u/tile-height :sx u/tile-width :scale-x -1 :width (- u/tile-width)}]]
+        stand-right [:image {:value image :swidth u/tile-width :sheight u/tile-height}]
+        stand-left [:image {:value image :swidth u/tile-width :sheight u/tile-height :scale-x -1 :width (- u/tile-width)}]
+        jump-right [:image {:value image :swidth u/tile-width :sheight u/tile-height :sx u/tile-width}]
+        jump-left [:image {:value image :swidth u/tile-width :sheight u/tile-height :sx u/tile-width :scale-x -1 :width (- u/tile-width)}]]
     {:current stand-right
      :stand-right stand-right
      :stand-left stand-left
