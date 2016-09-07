@@ -10,8 +10,9 @@
 (def ^:const gravity 0.3)
 (def ^:const image-url "koalio.png")
 (def ^:const map-name "level1")
-(def ^:const tile-width 18)
-(def ^:const tile-height 26)
+(def ^:const koala-width 18)
+(def ^:const koala-height 26)
+(def ^:const koala-offset (- (/ view-size 2) (/ koala-width 2)))
 
 (defn decelerate
   [velocity]
@@ -46,12 +47,12 @@
     :else
     direction))
 
-(defn touching-tile? [tiled-map layer-index x y]
+(defn touching-tile? [tiled-map layer-index x y width height]
   (let [tile-size (.getTileSize tiled-map)
         start-x (int (/ x (.-x tile-size)))
         start-y (int (/ y (.-y tile-size)))
-        end-x (inc (int (/ (+ x tile-width) (.-x tile-size))))
-        end-y (int (/ (+ y tile-height) (.-y tile-size)))
+        end-x (inc (int (/ (+ x width) (.-x tile-size))))
+        end-y (int (/ (+ y height) (.-y tile-size)))
         tiles (for [tile-x (range start-x end-x)
                     tile-y (range end-y start-y -1)]
                 (.getTileIndex tiled-map layer-index tile-x tile-y))]
