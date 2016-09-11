@@ -46,20 +46,13 @@
            [:stroke {:colors [255 102 0]}
             [:curve {:x1 73 :y1 24 :x2 73 :y2 61 :x3 15 :y3 65 :x4 15 :y4 65}]]]]
          [:image {:value (:rgb-image @state) :x 200 :y 100}]
-         [:image {:value (:hsb-image @state) :x 300 :y 100}]]))
-    (on-event [_ event])))
-
-(def overlay-screen
-  (reify p/Screen
-    (on-show [_])
-    (on-hide [_])
-    (on-render [_]
-      (p/render game [:ellipse {:x (:shapes-x @state) :y (:shapes-y @state) :width 60 :height 60}
-                      [:arc {:width 50 :height 50 :start 0 :stop 3.14}]
-                      ;[:quad {:x1 -10 :y1 -15 :x2 10 :y2 -15 :x3 10 :y3 15 :x4 -10 :y4 15}]
-                      [:rect {:x -10 :y -15 :width 20 :height 30}]
-                      [:line {:x1 -10 :y1 -5 :x2 10 :y2 -5}]
-                      [:triangle {:x1 -10 :y1 -15 :x2 10 :y2 -15 :x3 0 :y3 15}]]))
+         [:image {:value (:hsb-image @state) :x 300 :y 100}]
+         [:ellipse {:x (:shapes-x @state) :y (:shapes-y @state) :width 60 :height 60}
+          [:arc {:width 50 :height 50 :start 0 :stop 3.14}]
+          ;[:quad {:x1 -10 :y1 -15 :x2 10 :y2 -15 :x3 10 :y3 15 :x4 -10 :y4 15}]
+          [:rect {:x -10 :y -15 :width 20 :height 30}]
+          [:line {:x1 -10 :y1 -5 :x2 10 :y2 -5}]
+          [:triangle {:x1 -10 :y1 -15 :x2 10 :y2 -15 :x3 0 :y3 15}]]]))
     (on-event [_ event]
       (when (= (.-type event) "mousemove")
         (let [canvas (p/get-canvas game)
@@ -74,5 +67,5 @@
 (doto game
   (p/stop)
   (p/start ["mousemove"])
-  (p/set-screens [main-screen overlay-screen]))
+  (p/set-screen main-screen))
 
