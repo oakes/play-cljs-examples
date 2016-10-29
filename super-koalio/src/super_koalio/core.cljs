@@ -1,7 +1,8 @@
 (ns super-koalio.core
   (:require [play-cljs.core :as p]
             [super-koalio.state :as s]
-            [super-koalio.utils :as u]))
+            [super-koalio.utils :as u]
+            [nightlight.repl-server]))
 
 (defonce game (p/create-game u/view-size u/view-size))
 (defonce state (atom {}))
