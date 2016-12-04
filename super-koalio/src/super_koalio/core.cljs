@@ -25,11 +25,10 @@
         (-> @state
             (s/move game)
             (s/prevent-move game)
-            (s/animate))))
-    (on-event [_ event])))
+            (s/animate))))))
 
 (doto game
   (p/stop)
-  (p/start ["keydown"])
+  (p/start)
   (p/set-screen main-screen))
 
