@@ -1,7 +1,6 @@
 (ns shapes.core
   (:require [play-cljs.core :as p]
-            [goog.events :as events]
-            [nightlight.repl-server]))
+            [goog.events :as events]))
 
 (defonce game (p/create-game 500 500))
 (defonce state (atom {:shapes-x 0 :shapes-y 0}))
