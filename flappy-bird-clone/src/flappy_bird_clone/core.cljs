@@ -69,7 +69,7 @@
         (when (or (< 400 bird-y) (collision-detection pipes bird-img))
           (do 
             (swap! state update-in [:pipes] (fn [_] []))
-            (swap! state update-in [:bird-y] (fn [_] 0) )                    
+            (swap! state update-in [:bird-y] (fn [_] 0))
             (p/set-screen game title-screen)))
 
         (swap! state update-in [:bird-y] #(+ % 3))
