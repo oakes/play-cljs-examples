@@ -2,6 +2,8 @@
   (:require [play-cljs.core :as p]
             [super-koalio.utils :as u]))
 
+;(set! *warn-on-infer* true)
+
 (defn initial-state [game]
   (let [image (p/load-image game u/image-url)
         stand-right [:image {:value image :swidth u/koala-width :sheight u/koala-height}]

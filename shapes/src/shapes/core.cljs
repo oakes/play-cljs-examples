@@ -2,8 +2,26 @@
   (:require [play-cljs.core :as p]
             [goog.events :as events]))
 
+;(set! *warn-on-infer* true)
+
 (defonce game (p/create-game 500 500))
 (defonce state (atom {:shapes-x 0 :shapes-y 0}))
+
+(def rgb-content
+  [:stroke {}
+   [:rgb {:max-r 100 :max-g 100 :max-b 100}
+    (for [i (range 100)
+          j (range 100)]
+      [:stroke {:colors [i j 0]}
+       [:point {:x i :y j}]])]])
+
+(def hsb-content
+  [:stroke {}
+   [:hsb {:max-h 100 :max-s 100 :max-b 100}
+    (for [i (range 100)
+          j (range 100)]
+      [:stroke {:colors [i j 100]}
+       [:point {:x i :y j}]])]])
 
 (def main-screen
   (reify p/Screen
@@ -11,21 +29,9 @@
       ; pre-render images so we don't need to render them every single frame
       (swap! state assoc
         :rgb-image
-        (p/pre-render game 100 100
-          [:stroke {}
-           [:rgb {:max-r 100 :max-g 100 :max-b 100}
-            (for [i (range 100)
-                  j (range 100)]
-              [:stroke {:colors [i j 0]}
-               [:point {:x i :y j}]])]])
+        (p/pre-render game 100 100 rgb-content)
         :hsb-image
-        (p/pre-render game 100 100
-          [:stroke {}
-           [:hsb {:max-h 100 :max-s 100 :max-b 100}
-            (for [i (range 100)
-                  j (range 100)]
-              [:stroke {:colors [i j 100]}
-               [:point {:x i :y j}]])]])))
+        (p/pre-render game 100 100 hsb-content)))
     (on-hide [_])
     (on-render [_]
       (p/render game
@@ -56,13 +62,12 @@
           [:triangle {:x1 -10 :y1 -15 :x2 10 :y2 -15 :x3 0 :y3 15}]]]))))
 
 (doto game
-  (p/stop)
   (p/start)
   (p/set-screen main-screen))
 
 (events/listen js/window "mousemove"
-  (fn [event]
-    (let [canvas (p/get-canvas game)
+  (fn [^js/KeyboardEvent event]
+    (let [^js/Element canvas (p/get-canvas game)
           x-offset (max 0 (- (.-clientWidth canvas) (.-clientHeight canvas)))
           y-offset (max 0 (- (.-clientHeight canvas) (.-clientWidth canvas)))
           x-adjust (/ (p/get-width game) (- (.-clientWidth canvas) x-offset))

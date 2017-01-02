@@ -4,6 +4,8 @@
             [super-koalio.utils :as u]
             [nightlight.repl-server]))
 
+;(set! *warn-on-infer* true)
+
 (defonce game (p/create-game u/view-size u/view-size))
 (defonce state (atom {}))
 
@@ -28,7 +30,6 @@
             (s/animate))))))
 
 (doto game
-  (p/stop)
   (p/start)
   (p/set-screen main-screen))
 

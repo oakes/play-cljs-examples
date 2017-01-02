@@ -1,6 +1,8 @@
 (ns super-koalio.utils
   (:require [play-cljs.core :as p]))
 
+;(set! *warn-on-infer* true)
+
 (def ^:const view-size 500)
 (def ^:const duration 0.15)
 (def ^:const damping 0.1)
@@ -47,7 +49,7 @@
     :else
     direction))
 
-(defn touching-tile? [tiled-map layer-index x y width height]
+(defn touching-tile? [^js/p5.TiledMap tiled-map layer-index x y width height]
   (let [tile-size (.getTileSize tiled-map)
         start-x (int (/ x (.-x tile-size)))
         start-y (int (/ y (.-y tile-size)))

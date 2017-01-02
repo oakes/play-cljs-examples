@@ -2,6 +2,8 @@
   (:require [play-cljs.core :as p]
             [goog.events :as events]))
 
+;(set! *warn-on-infer* true)
+
 (defonce game (p/create-game 500 500))
 (defonce state (atom {:timeoutid 0
                       :splash (p/load-image game "splash.png")
@@ -113,7 +115,6 @@
                  [:image {:value (:land @state) :width 500 :height 100 :x 0 :y 450}]]))))
 
 (doto game
-  (p/stop)
   (p/start)
   (p/set-screen title-screen))
 
