@@ -7,7 +7,7 @@
 (def ^:const duration 0.15)
 (def ^:const damping 0.1)
 (def ^:const max-velocity 0.5)
-(def ^:const max-jump-velocity (* max-velocity 7))
+(def ^:const max-jump-velocity (* max-velocity 4))
 (def ^:const deceleration 0.9)
 (def ^:const gravity 0.2)
 (def ^:const image-url "koalio.png")
