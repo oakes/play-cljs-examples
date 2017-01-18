@@ -52,8 +52,6 @@
       (when (u/touching-tile? (:map state) 1 (+ x u/koala-offset) old-y u/koala-width u/koala-height)
         {:x-velocity 0 :x-change 0 :x old-x})
       (when (u/touching-tile? (:map state) 1 (+ old-x u/koala-offset) y u/koala-width u/koala-height)
-        {:y-velocity 0 :y-change 0 :y old-y :can-jump? (not up?)})
-      (when (> y (-> (p/get-height game) (/ 2) (+ u/koala-height)))
         {:y-velocity 0 :y-change 0 :y old-y :can-jump? (not up?)}))))
 
 (defn animate
