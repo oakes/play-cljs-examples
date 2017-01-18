@@ -5,7 +5,7 @@
                   [adzerk/boot-reload "0.4.12" :scope "test"]
                   [pandeiro/boot-http "0.7.3" :scope "test"]
                   ; project deps
-                  [nightlight "1.4.4"]
+                  [nightlight "1.5.1"]
                   [org.clojure/clojurescript "1.9.293"]
                   [play-cljs "0.8.0"]])
 
