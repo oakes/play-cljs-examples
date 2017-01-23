@@ -12,11 +12,26 @@
                       :bird (p/load-image game "Flappy_Bird.png")
                       :pipe (p/load-image game "pipe.png")
                       :pipedwn (p/load-image game "pipedwn.png")
-                      :bird-y 200
+                      :bird-p 100
+                      :bird-v 0
+                      :bird-a 1
                       :pipes []}))
 
 (declare title-screen)
 (declare main-screen)
+
+(defn calc-p [p v a]
+  (let [t 0.25]
+    (+ (* 0.5 t t a) (* t v) p)))
+
+(defn calc-v [v a]
+  (let [t 0.25]
+    (+ (* t a) v)))
+
+(defn move-bird [{:keys [bird-p bird-v bird-a] :as state}]
+  (assoc state
+    :bird-p (calc-p bird-p bird-v bird-a)
+    :bird-v (calc-v bird-v bird-a)))
 
 ;If we are on the title screen a mouse click takes us to the next screen,
 ;otherwise we minus the bird's y position to make it jump.
@@ -25,7 +40,7 @@
                  (let [gme (p/get-screen game)]
                    (cond
                      (= gme title-screen) (p/set-screen game main-screen)
-                     (= gme main-screen) (swap! state update-in [:bird-y] #(- % 40))))))
+                     (= gme main-screen) (swap! state update-in [:bird-v] #(- 12))))))
 
 ;Top and bottom pipes are generated together as the gap between them should
 ;always be the same.
@@ -77,21 +92,21 @@
       (js/clearInterval (:timeoutid @state)))
 
     (on-render [this]
-      (let [{:keys [sky land bird bird-y pipe pipes]} @state
-            bird-img [:image {:value bird :width 60 :height 60 :x 200 :y bird-y}]]
+      (let [{:keys [sky land bird bird-p pipe pipes]} @state
+            bird-img [:image {:value bird :width 60 :height 60 :x 200 :y bird-p}]]
 
         ;If the bird hits the ground or a pipe, return to the title screen and
         ;reset its position.
-        (when (or (< 400 bird-y) (collision-detection pipes bird-img))
+        (when (or (< 400 bird-p) (collision-detection pipes bird-img))
           (do
             (swap! state update-in [:pipes] (fn [_] []))
-            (swap! state update-in [:bird-y] (fn [_] 0))
+            (swap! state update-in [:bird-p] (fn [_] 0))
             (p/set-screen game title-screen)))
 
-        ;A poor person's gravity
-        (swap! state update-in [:bird-y] #(+ % 3))
+        ; Make the bird fall!
+        (swap! state move-bird)
 
-        ;Move all of our pipes to the left, to the left.
+        ; Move all of our pipes to the left, to the left.
         (swap! state update-in [:pipes] (fn [pipes] (map
                                                       (fn [pipe]
                                                         (update-in pipe [1 :x] dec))
@@ -117,4 +132,3 @@
 (doto game
   (p/start)
   (p/set-screen title-screen))
-
