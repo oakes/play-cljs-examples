@@ -5,18 +5,23 @@
 ;(set! *warn-on-infer* true)
 
 (defn initial-state [game]
-  (let [image (p/load-image game u/image-url)
-        stand-right [:image {:value image :swidth u/koala-width :sheight u/koala-height}]
-        stand-left [:image {:value image :swidth u/koala-width :sheight u/koala-height :scale-x -1 :width (- u/koala-width)}]
-        jump-right [:image {:value image :swidth u/koala-width :sheight u/koala-height :sx u/koala-width}]
-        jump-left [:image {:value image :swidth u/koala-width :sheight u/koala-height :sx u/koala-width :scale-x -1 :width (- u/koala-width)}]]
+  (let [stand-right [:image {:name u/image-url :swidth u/koala-width :sheight u/koala-height :sx 0}]
+        stand-left [:image {:name u/image-url :swidth u/koala-width :sheight u/koala-height :sx 0 :scale-x -1 :width (- u/koala-width)}]
+        jump-right [:image {:name u/image-url :swidth u/koala-width :sheight u/koala-height :sx u/koala-width}]
+        jump-left [:image {:name u/image-url :swidth u/koala-width :sheight u/koala-height :sx u/koala-width :scale-x -1 :width (- u/koala-width)}]
+        walk-right-1 [:image {:name u/image-url :swidth u/koala-width :sheight u/koala-height :sx (* 2 u/koala-width)}]
+        walk-right-2 [:image {:name u/image-url :swidth u/koala-width :sheight u/koala-height :sx (* 3 u/koala-width)}]
+        walk-right-3 [:image {:name u/image-url :swidth u/koala-width :sheight u/koala-height :sx (* 4 u/koala-width)}]
+        walk-left-1 [:image {:name u/image-url :swidth u/koala-width :sheight u/koala-height :sx (* 2 u/koala-width) :scale-x -1 :width (- u/koala-width)}]
+        walk-left-2 [:image {:name u/image-url :swidth u/koala-width :sheight u/koala-height :sx (* 3 u/koala-width) :scale-x -1 :width (- u/koala-width)}]
+        walk-left-3 [:image {:name u/image-url :swidth u/koala-width :sheight u/koala-height :sx (* 4 u/koala-width) :scale-x -1 :width (- u/koala-width)}]]
     {:current stand-right
      :stand-right stand-right
      :stand-left stand-left
      :jump-right jump-right
      :jump-left jump-left
-     ;:walk-right TODO
-     ;:walk-left TODO
+     :walk-right [:animation {:duration 200} walk-right-1 walk-right-2 walk-right-3]
+     :walk-left [:animation {:duration 200} walk-left-1 walk-left-2 walk-left-3]
      :x-velocity 0
      :y-velocity 0
      :x -100
@@ -65,8 +70,8 @@
           (cond
             (not= y-velocity 0)
             (if (= direction :right) jump-right jump-left)
-            ;(not= x-velocity 0)
-            ;(if (= direction :right) walk-right walk-left)
+            (not= x-velocity 0)
+            (if (= direction :right) walk-right walk-left)
             :else
             (if (= direction :right) stand-right stand-left)))
         (assoc :direction direction))))

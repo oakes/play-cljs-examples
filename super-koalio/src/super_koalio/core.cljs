@@ -12,6 +12,7 @@
 (def main-screen
   (reify p/Screen
     (on-show [_]
+      (p/load-image game u/image-url)
       (reset! state (s/initial-state game)))
     (on-hide [_])
     (on-render [this]
@@ -20,7 +21,7 @@
         (p/render game [[:stroke {}
                          [:fill {:color "lightblue"}
                           [:rect {:width u/view-size :height u/view-size}]]]
-                        [:tiled-map {:value (:map @state) :x x}]
+                        [:tiled-map {:name u/map-name :x x}]
                         [:div {:x koala-x :y y :width u/koala-width :height u/koala-height}
                          current]])
         (when (> y (- (p/get-height game) u/koala-height))

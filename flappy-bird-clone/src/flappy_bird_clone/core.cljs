@@ -6,16 +6,18 @@
 
 (defonce game (p/create-game 500 500))
 (defonce state (atom {:timeoutid 0
-                      :splash (p/load-image game "splash.png")
-                      :sky (p/load-image game "sky.png")
-                      :land (p/load-image game "land.png")
-                      :bird (p/load-image game "Flappy_Bird.png")
-                      :pipe (p/load-image game "pipe.png")
-                      :pipedwn (p/load-image game "pipedwn.png")
                       :bird-p 100
                       :bird-v 0
                       :bird-a 1
                       :pipes []}))
+
+(doto game
+  (p/load-image "splash.png")
+  (p/load-image "sky.png")
+  (p/load-image "land.png")
+  (p/load-image "Flappy_Bird.png")
+  (p/load-image "pipe.png")
+  (p/load-image "pipedwn.png"))
 
 (declare title-screen)
 (declare main-screen)
@@ -46,8 +48,8 @@
 ;always be the same.
 (defn pipe-gen []
   (let [rnd (rand 350)]
-    [[:image {:value (:pipedwn @state) :width 50 :height 400 :x 550 :y (+ -400 rnd)}]
-     [:image {:value (:pipe @state) :width 50 :height 400 :x 550 :y (+ 200 rnd)}]]))
+    [[:image {:name "pipedwn.png" :width 50 :height 400 :x 550 :y (+ -400 rnd)}]
+     [:image {:name "pipe.png" :width 50 :height 400 :x 550 :y (+ 200 rnd)}]]))
 
 ;For two rectangles, if we know the top left and bottom right co-ordinates,
 ;there are four cases which if true mean those two rectangles are not
@@ -92,8 +94,8 @@
       (js/clearInterval (:timeoutid @state)))
 
     (on-render [this]
-      (let [{:keys [sky land bird bird-p pipe pipes]} @state
-            bird-img [:image {:value bird :width 60 :height 60 :x 200 :y bird-p}]]
+      (let [{:keys [bird-p pipe pipes]} @state
+            bird-img [:image {:name "Flappy_Bird.png" :width 60 :height 60 :x 200 :y bird-p}]]
 
         ;If the bird hits the ground or a pipe, return to the title screen and
         ;reset its position.
@@ -113,8 +115,8 @@
                                                       pipes)))
 
         (p/render game
-                  [[:image {:value sky :width 500 :height 500 :x 0 :y 0}]
-                   [:image {:value land :width 500 :height 100 :x 0 :y 450}]
+                  [[:image {:name "sky.png" :width 500 :height 500 :x 0 :y 0}]
+                   [:image {:name "land.png" :width 500 :height 100 :x 0 :y 450}]
                    bird-img])
 
         (p/render game pipes)))))
@@ -125,9 +127,9 @@
     (on-hide [this])
     (on-render [this]
       (p/render game
-                [[:image {:value (:sky @state) :width 500 :height 500 :x 0 :y 0}]
-                 [:image {:value (:splash @state) :width 300 :height 300 :x 100 :y 100}]
-                 [:image {:value (:land @state) :width 500 :height 100 :x 0 :y 450}]]))))
+                [[:image {:name "sky.png" :width 500 :height 500 :x 0 :y 0}]
+                 [:image {:name "splash.png" :width 300 :height 300 :x 100 :y 100}]
+                 [:image {:name "land.png" :width 500 :height 100 :x 0 :y 450}]]))))
 
 (doto game
   (p/start)
