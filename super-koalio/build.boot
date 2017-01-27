@@ -3,10 +3,11 @@
   :resource-paths #{"resources"}
   :dependencies '[[adzerk/boot-cljs "1.7.228-1" :scope "test"]
                   [adzerk/boot-reload "0.4.12" :scope "test"]
-                  [pandeiro/boot-http "0.7.3" :scope "test"]
+                  [pandeiro/boot-http "0.7.3" :scope "test"
+                   :exclusions [org.clojure/clojure]]
                   ; project deps
                   [nightlight "1.5.1"]
-                  [org.clojure/clojurescript "1.9.293"]
+                  [org.clojure/clojurescript "1.9.456"]
                   [play-cljs "0.9.0"]])
 
 (require
@@ -25,5 +26,5 @@
     (nightlight :port 4000 :url "http://localhost:3000")))
 
 (deftask build []
-  (comp (cljs :optimizations :simple) (target)))
+  (comp (cljs :optimizations :advanced) (target)))
 
