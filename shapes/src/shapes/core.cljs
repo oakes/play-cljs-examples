@@ -9,7 +9,7 @@
 
 (def rgb-content
   [:stroke {}
-   [:rgb {:max-r 100 :max-g 100 :max-b 100}
+   [:rgb {:max-r 100 :max-g 100 :max-b 100 :max-a 100}
     (for [i (range 100)
           j (range 100)]
       [:stroke {:colors [i j 0]}
@@ -17,7 +17,7 @@
 
 (def hsb-content
   [:stroke {}
-   [:hsb {:max-h 100 :max-s 100 :max-b 100}
+   [:hsb {:max-h 100 :max-s 100 :max-b 100 :max-a 100}
     (for [i (range 100)
           j (range 100)]
       [:stroke {:colors [i j 100]}
