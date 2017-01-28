@@ -6,7 +6,7 @@
                   [pandeiro/boot-http "0.7.3" :scope "test"
                    :exclusions [org.clojure/clojure]]
                   ; project deps
-                  [nightlight "1.6.0"]
+                  [nightlight "1.6.1"]
                   [org.clojure/clojurescript "1.9.456"]
                   [play-cljs "0.9.0"]])
 
