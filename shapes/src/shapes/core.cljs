@@ -23,9 +23,20 @@
       [:stroke {:colors [i j 100]}
        [:point {:x i :y j}]])]])
 
+(defn on-mouse-move [^js/KeyboardEvent event]
+  (let [^js/Element canvas (p/get-canvas game)
+        x-offset (max 0 (- (.-clientWidth canvas) (.-clientHeight canvas)))
+        y-offset (max 0 (- (.-clientHeight canvas) (.-clientWidth canvas)))
+        x-adjust (/ (p/get-width game) (- (.-clientWidth canvas) x-offset))
+        y-adjust (/ (p/get-height game) (- (.-clientHeight canvas) y-offset))
+        new-x (* x-adjust (- (.-clientX event) (/ x-offset 2)))
+        new-y (* y-adjust (- (.-clientY event) (/ y-offset 2)))]
+    (swap! state assoc :shapes-x new-x :shapes-y new-y)))
+
 (def main-screen
   (reify p/Screen
     (on-show [_]
+      (events/listen js/window "mousemove" on-mouse-move)
       ; pre-render images so we don't need to render them every single frame
       (p/pre-render game "rgb-image" 100 100 rgb-content)
       (p/pre-render game "hsb-image" 100 100 hsb-content))
@@ -61,15 +72,4 @@
 (doto game
   (p/start)
   (p/set-screen main-screen))
-
-(events/listen js/window "mousemove"
-  (fn [^js/KeyboardEvent event]
-    (let [^js/Element canvas (p/get-canvas game)
-          x-offset (max 0 (- (.-clientWidth canvas) (.-clientHeight canvas)))
-          y-offset (max 0 (- (.-clientHeight canvas) (.-clientWidth canvas)))
-          x-adjust (/ (p/get-width game) (- (.-clientWidth canvas) x-offset))
-          y-adjust (/ (p/get-height game) (- (.-clientHeight canvas) y-offset))
-          new-x (* x-adjust (- (.-clientX event) (/ x-offset 2)))
-          new-y (* y-adjust (- (.-clientY event) (/ y-offset 2)))]
-      (swap! state assoc :shapes-x new-x :shapes-y new-y))))
 
