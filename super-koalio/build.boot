@@ -7,8 +7,8 @@
                    :exclusions [org.clojure/clojure]]
                   ; project deps
                   [nightlight "1.6.1"]
-                  [org.clojure/clojurescript "1.9.456"]
-                  [play-cljs "0.10.0"]])
+                  [org.clojure/clojurescript "1.9.473"]
+                  [play-cljs "0.10.1"]])
 
 (require
   '[adzerk.boot-cljs :refer [cljs]]

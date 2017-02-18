@@ -16,13 +16,12 @@
       (reset! state (s/initial-state game)))
     (on-hide [_])
     (on-render [this]
-      (let [{:keys [x y direction current]} @state
-            koala-x (if (= direction :left) (- u/koala-offset) u/koala-offset)]
+      (let [{:keys [x y direction current]} @state]
         (p/render game [[:stroke {}
                          [:fill {:color "lightblue"}
                           [:rect {:width u/view-size :height u/view-size}]]]
                         [:tiled-map {:name u/map-name :x x}]
-                        [:div {:x koala-x :y y :width u/koala-width :height u/koala-height}
+                        [:div {:x u/koala-offset :y y :width u/koala-width :height u/koala-height}
                          current]])
         (when (> y (- (p/get-height game) u/koala-height))
           (p/set-screen game this)))

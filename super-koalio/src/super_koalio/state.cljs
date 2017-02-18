@@ -6,15 +6,15 @@
 
 (defn initial-state [game]
   (let [stand-right [:image {:name u/image-url :swidth u/koala-width :sheight u/koala-height :sx 0}]
-        stand-left [:image {:name u/image-url :swidth u/koala-width :sheight u/koala-height :sx 0 :scale-x -1 :width (- u/koala-width)}]
+        stand-left [:image {:name u/image-url :swidth u/koala-width :sheight u/koala-height :sx 0 :flip-x true}]
         jump-right [:image {:name u/image-url :swidth u/koala-width :sheight u/koala-height :sx u/koala-width}]
-        jump-left [:image {:name u/image-url :swidth u/koala-width :sheight u/koala-height :sx u/koala-width :scale-x -1 :width (- u/koala-width)}]
+        jump-left [:image {:name u/image-url :swidth u/koala-width :sheight u/koala-height :sx u/koala-width :flip-x true}]
         walk-right-1 [:image {:name u/image-url :swidth u/koala-width :sheight u/koala-height :sx (* 2 u/koala-width)}]
         walk-right-2 [:image {:name u/image-url :swidth u/koala-width :sheight u/koala-height :sx (* 3 u/koala-width)}]
         walk-right-3 [:image {:name u/image-url :swidth u/koala-width :sheight u/koala-height :sx (* 4 u/koala-width)}]
-        walk-left-1 [:image {:name u/image-url :swidth u/koala-width :sheight u/koala-height :sx (* 2 u/koala-width) :scale-x -1 :width (- u/koala-width)}]
-        walk-left-2 [:image {:name u/image-url :swidth u/koala-width :sheight u/koala-height :sx (* 3 u/koala-width) :scale-x -1 :width (- u/koala-width)}]
-        walk-left-3 [:image {:name u/image-url :swidth u/koala-width :sheight u/koala-height :sx (* 4 u/koala-width) :scale-x -1 :width (- u/koala-width)}]]
+        walk-left-1 [:image {:name u/image-url :swidth u/koala-width :sheight u/koala-height :sx (* 2 u/koala-width) :flip-x true}]
+        walk-left-2 [:image {:name u/image-url :swidth u/koala-width :sheight u/koala-height :sx (* 3 u/koala-width) :flip-x true}]
+        walk-left-3 [:image {:name u/image-url :swidth u/koala-width :sheight u/koala-height :sx (* 4 u/koala-width) :flip-x true}]]
     {:current stand-right
      :stand-right stand-right
      :stand-left stand-left
