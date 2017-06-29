@@ -4,7 +4,7 @@
 
 ;(set! *warn-on-infer* true)
 
-(defonce game (p/create-game 500 500))
+(defonce game (p/create-game (.-innerWidth js/window) (.-innerHeight js/window)))
 (defonce state (atom {:shapes-x 0 :shapes-y 0}))
 
 (def rgb-content
@@ -23,20 +23,9 @@
       [:stroke {:colors [i j 100]}
        [:point {:x i :y j}]])]])
 
-(defn on-mouse-move [^js/KeyboardEvent event]
-  (let [^js/Element canvas (p/get-canvas game)
-        x-offset (max 0 (- (.-clientWidth canvas) (.-clientHeight canvas)))
-        y-offset (max 0 (- (.-clientHeight canvas) (.-clientWidth canvas)))
-        x-adjust (/ (p/get-width game) (- (.-clientWidth canvas) x-offset))
-        y-adjust (/ (p/get-height game) (- (.-clientHeight canvas) y-offset))
-        new-x (* x-adjust (- (.-clientX event) (/ x-offset 2)))
-        new-y (* y-adjust (- (.-clientY event) (/ y-offset 2)))]
-    (swap! state assoc :shapes-x new-x :shapes-y new-y)))
-
 (def main-screen
   (reify p/Screen
     (on-show [_]
-      (events/listen js/window "mousemove" on-mouse-move)
       ; pre-render images so we don't need to render them every single frame
       (p/pre-render game "rgb-image" 100 100 rgb-content)
       (p/pre-render game "hsb-image" 100 100 hsb-content))
@@ -68,6 +57,14 @@
           [:rect {:x -10 :y -15 :width 20 :height 30}]
           [:line {:x1 -10 :y1 -5 :x2 10 :y2 -5}]
           [:triangle {:x1 -10 :y1 -15 :x2 10 :y2 -15 :x3 0 :y3 15}]]]))))
+
+(events/listen js/window "mousemove"
+  (fn [event]
+    (swap! state assoc :shapes-x (.-clientX event) :shapes-y (.-clientY event))))
+
+(events/listen js/window "resize"
+  (fn [event]
+    (p/set-size game (.-innerWidth js/window) (.-innerHeight js/window))))
 
 (doto game
   (p/start)
