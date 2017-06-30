@@ -7,7 +7,7 @@
                    :exclusions [org.clojure/clojure]]
                   ; project deps
                   [nightlight "1.6.5"]
-                  [org.clojure/clojurescript "1.9.518"]
+                  [org.clojure/clojurescript "1.9.660"]
                   [play-cljs "0.10.1"]])
 
 (require
