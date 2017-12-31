@@ -8,7 +8,7 @@
                   ; project deps
                   [nightlight "2.1.0"]
                   [org.clojure/clojurescript "1.9.946"]
-                  [play-cljs "0.11.2"]])
+                  [play-cljs "0.12.0"]])
 
 (require
   '[adzerk.boot-cljs :refer [cljs]]
