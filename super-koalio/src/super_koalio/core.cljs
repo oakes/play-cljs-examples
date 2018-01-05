@@ -7,16 +7,16 @@
 ;(set! *warn-on-infer* true)
 
 (defonce game (p/create-game u/view-size u/view-size))
-(defonce state (atom {}))
+(defonce *state (atom {}))
 
 (def main-screen
   (reify p/Screen
     (on-show [_]
       (p/load-image game u/image-url)
-      (reset! state (s/initial-state game)))
+      (reset! *state (s/initial-state game)))
     (on-hide [_])
     (on-render [this]
-      (let [{:keys [x y current]} @state]
+      (let [{:keys [x y current]} @*state]
         (p/render game [[:stroke {}
                          [:fill {:color "lightblue"}
                           [:rect {:width u/view-size :height u/view-size}]]]
@@ -25,11 +25,12 @@
                          current]])
         (when (> y (- (p/get-height game) u/koala-height))
           (p/set-screen game this)))
-      (reset! state
-        (-> @state
-            (s/move game)
-            (s/prevent-move game)
-            (s/animate))))))
+      (swap! *state
+        (fn [state]
+          (-> state
+              (s/move game)
+              (s/prevent-move game)
+              (s/animate)))))))
 
 (doto game
   (p/start)

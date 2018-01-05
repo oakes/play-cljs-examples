@@ -5,11 +5,11 @@
 ;(set! *warn-on-infer* true)
 
 (defonce game (p/create-game 500 500))
-(defonce state (atom {:timeoutid 0
-                      :bird-p 100
-                      :bird-v 0
-                      :bird-a 1
-                      :pipes []}))
+(defonce *state (atom {:timeoutid 0
+                       :bird-p 100
+                       :bird-v 0
+                       :bird-a 1
+                       :pipes []}))
 
 (doto game
   (p/load-image "splash.png")
@@ -42,7 +42,7 @@
                  (let [gme (p/get-screen game)]
                    (cond
                      (= gme title-screen) (p/set-screen game main-screen)
-                     (= gme main-screen) (swap! state update-in [:bird-v] #(- 12))))))
+                     (= gme main-screen) (swap! *state update-in [:bird-v] #(- 12))))))
 
 ;Top and bottom pipes are generated together as the gap between them should
 ;always be the same.
@@ -79,10 +79,10 @@
       ;where we remove pipes that have gone off the screen to the left.
       ;We also need to record the id of our call to setInterval so we can
       ;destroy it when we leave this screen.
-      (swap! state update-in [:timeoutid]
+      (swap! *state update-in [:timeoutid]
              (fn [_] (js/setInterval
                        (fn []
-                         (swap! state update-in [:pipes]
+                         (swap! *state update-in [:pipes]
                                 (fn [pipes]
                                   (apply conj (filter
                                                 (fn [pipe]
@@ -91,25 +91,25 @@
                        4000))))
 
     (on-hide [this]
-      (js/clearInterval (:timeoutid @state)))
+      (js/clearInterval (:timeoutid @*state)))
 
     (on-render [this]
-      (let [{:keys [bird-p pipe pipes]} @state
+      (let [{:keys [bird-p pipe pipes]} @*state
             bird-img [:image {:name "Flappy_Bird.png" :width 60 :height 60 :x 200 :y bird-p}]]
 
         ;If the bird hits the ground or a pipe, return to the title screen and
         ;reset its position.
         (when (or (< 400 bird-p) (collision-detection pipes bird-img))
           (do
-            (swap! state update-in [:pipes] (fn [_] []))
-            (swap! state update-in [:bird-p] (fn [_] 0))
+            (swap! *state update-in [:pipes] (fn [_] []))
+            (swap! *state update-in [:bird-p] (fn [_] 0))
             (p/set-screen game title-screen)))
 
         ; Make the bird fall!
-        (swap! state move-bird)
+        (swap! *state move-bird)
 
         ; Move all of our pipes to the left, to the left.
-        (swap! state update-in [:pipes] (fn [pipes] (map
+        (swap! *state update-in [:pipes] (fn [pipes] (map
                                                       (fn [pipe]
                                                         (update-in pipe [1 :x] dec))
                                                       pipes)))

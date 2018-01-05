@@ -5,7 +5,7 @@
 ;(set! *warn-on-infer* true)
 
 (defonce game (p/create-game (.-innerWidth js/window) (.-innerHeight js/window)))
-(defonce state (atom {:shapes-x 0 :shapes-y 0}))
+(defonce *state (atom {:shapes-x 0 :shapes-y 0}))
 
 (def rgb-content
   [:stroke {}
@@ -52,7 +52,7 @@
          [:image {:name "rgb-image" :x 200 :y 100}]
          [:image {:name "hsb-image" :x 300 :y 100}]
          [:smiley {:x 100 :y 300}]
-         [:ellipse {:x (:shapes-x @state) :y (:shapes-y @state) :width 60 :height 60}
+         [:ellipse {:x (:shapes-x @*state) :y (:shapes-y @*state) :width 60 :height 60}
           [:arc {:width 50 :height 50 :start 0 :stop 3.14}]
           ;[:quad {:x1 -10 :y1 -15 :x2 10 :y2 -15 :x3 10 :y3 15 :x4 -10 :y4 15}]
           [:rect {:x -10 :y -15 :width 20 :height 30}]
@@ -78,7 +78,7 @@
 
 (events/listen js/window "mousemove"
   (fn [event]
-    (swap! state assoc :shapes-x (.-clientX event) :shapes-y (.-clientY event))))
+    (swap! *state assoc :shapes-x (.-clientX event) :shapes-y (.-clientY event))))
 
 (events/listen js/window "resize"
   (fn [event]
