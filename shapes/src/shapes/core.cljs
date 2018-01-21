@@ -61,8 +61,8 @@
 
 ; example of how to define a new entity type
 (defmethod p/draw-sketch! :smiley [game ^js/p5 renderer content parent-opts]
-  (let [[command opts & children] content
-        opts (play-cljs.utils/update-opts opts parent-opts play-cljs.utils/basic-defaults)]
+  (let [[_ opts & children] content
+        opts (play-cljs.options/update-opts opts parent-opts play-cljs.options/basic-defaults)]
     (p/draw-sketch!
       game
       renderer
