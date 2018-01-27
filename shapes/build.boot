@@ -7,9 +7,10 @@
                    :exclusions [org.clojure/clojure]]
                   ; project deps
                   [org.clojure/clojurescript "1.9.946"]
-                  [play-cljs "1.0.0"]])
+                  [play-cljs "1.1.0"]])
 
 (require
+  '[clojure.java.io :as io]
   '[adzerk.boot-cljs :refer [cljs]]
   '[adzerk.boot-reload :refer [reload]]
   '[pandeiro.boot-http :refer [serve]])
@@ -22,6 +23,20 @@
     (cljs :source-map true :optimizations :none)
     (target)))
 
+(defn delete-children-recursively!
+  "Deletes the children of the given dir along with the dir itself."
+  [f]
+  (when (.isDirectory f)
+    (doseq [f2 (.listFiles f)]
+      (delete-children-recursively! f2)))
+  (when (.exists f) (io/delete-file f))
+  nil)
+
 (deftask build []
-  (comp (cljs :optimizations :advanced) (target)))
+  (comp
+    (cljs :optimizations :advanced)
+    (target)
+    (with-pass-thru _
+      (.renameTo (io/file "target/public") (doto (io/file "../docs/demos/shapes")
+                                             delete-children-recursively!)))))
 

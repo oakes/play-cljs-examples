@@ -1,0 +1,3 @@
+{:require  [flappy-bird-clone.core]
+ :init-fns []
+ :compiler-options {:infer-externs true}}
