@@ -20,7 +20,9 @@
     (serve :dir "target/public")
     (watch)
     (reload)
-    (cljs :source-map true :optimizations :none)
+    (cljs
+      :optimizations :none
+      :compiler-options {:asset-path "main.out"})
     (target)))
 
 (defn delete-children-recursively!

@@ -22,7 +22,9 @@
     (serve :dir "target/public" :port 3000)
     (watch)
     (reload)
-    (cljs :source-map true :optimizations :none)
+    (cljs
+      :optimizations :none
+      :compiler-options {:asset-path "main.out"})
     (target)
     (nightlight :port 4000 :url "http://localhost:3000")))
 
