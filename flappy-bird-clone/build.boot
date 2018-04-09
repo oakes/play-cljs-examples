@@ -7,7 +7,7 @@
                    :exclusions [org.clojure/clojure]]
                   ; project deps
                   [org.clojure/clojurescript "1.10.238"]
-                  [play-cljs "1.1.0"]])
+                  [play-cljs "1.2.0"]])
 
 (require
   '[clojure.java.io :as io]
