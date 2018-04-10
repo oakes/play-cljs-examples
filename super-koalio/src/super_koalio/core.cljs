@@ -2,7 +2,13 @@
   (:require [play-cljs.core :as p]
             [super-koalio.state :as s]
             [super-koalio.utils :as u]
-            [nightlight.repl-server]))
+            [nightlight.repl-server])
+  (:require-macros [super-koalio.music :as m]))
+
+(defonce audio (js/document.createElement "audio"))
+(set! (.-src audio) (m/build-music))
+(set! (.-loop audio) true)
+(.play audio)
 
 ;(set! *warn-on-infer* true)
 
