@@ -5,6 +5,7 @@
                   [adzerk/boot-reload "0.5.2" :scope "test"]
                   [pandeiro/boot-http "0.8.3" :scope "test"
                    :exclusions [org.clojure/clojure]]
+                  [javax.xml.bind/jaxb-api "2.3.0"] ; necessary for Java 9 compatibility
                   ; project deps
                   [edna "1.2.0"]
                   [nightlight "RELEASE"]
