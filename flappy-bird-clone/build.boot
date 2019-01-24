@@ -8,7 +8,7 @@
                   [javax.xml.bind/jaxb-api "2.3.0"] ; necessary for Java 9 compatibility
                   ; project deps
                   [org.clojure/clojurescript "1.10.439"]
-                  [play-cljs "1.3.0"]])
+                  [play-cljs "1.3.1"]])
 
 (require
   '[clojure.java.io :as io]

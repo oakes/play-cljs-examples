@@ -10,7 +10,7 @@
                   [edna "1.6.0"]
                   [nightlight "RELEASE"]
                   [org.clojure/clojurescript "1.10.439"]
-                  [play-cljs "1.3.0"]])
+                  [play-cljs "1.3.1"]])
 
 (require
   '[clojure.java.io :as io]
