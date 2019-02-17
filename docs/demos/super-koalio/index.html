@@ -11,11 +11,20 @@ canvas {
     height: 100%;
     object-fit: contain;
 }
+
+#audio-button {
+  font-size: 20px;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
 </style>
 </head>
 
 <body>
-<script language="javascript" type="text/javascript" src="level1.js"></script>
-<script src="main.js"></script>
+  <audio id="audio" loop="loop"></audio>
+  <button id="audio-button">Toggle Music</button>
+  <script language="javascript" type="text/javascript" src="level1.js"></script>
+  <script src="main.js"></script>
 </body>
 </html>
