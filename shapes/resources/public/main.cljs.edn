@@ -1,3 +1,0 @@
-{:require  [shapes.core]
- :init-fns []
- :compiler-options {:infer-externs true}}
